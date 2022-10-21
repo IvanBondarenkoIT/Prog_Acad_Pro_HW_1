@@ -36,8 +36,11 @@ class Order:
         self.__products = {}
 
     def add_product(self, product: Product, quonity):
-        if isinstance(product, Product) and product not in self.__products:
-            self.__products[product] = quonity
+        if isinstance(product, Product):
+            if product in self.__products:
+                self.__products[product] += quonity
+            else:
+                self.__products[product] = quonity
 
     def __str__(self): #  Визначте метод str() для коректного виведення інформації про це замовлення.
         __str = "Order:\n"
@@ -79,7 +82,12 @@ customers.append(customer2)
 
 order_1 = Order(customer=customers[1])
 order_1.add_product(product=products[0], quonity=5)
+order_1.add_product(product=products[1], quonity=3)
+order_1.add_product(product=products[0], quonity=2)
+'''order_1 = Order(customer=customers[1])
+order_1.add_product(product=products[0], quonity=5)
 order_1.add_product(product=products[1], quonity= 3)
+'''
 
 order_2 = Order(customer=customers[0])
 order_2.add_product(product=products[0], quonity=4)

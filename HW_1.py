@@ -1,20 +1,41 @@
-# Домашнє завдання 1:
+# Домашнє завдання 1, 3:
 BORDER = "=" * 100
 
-# todo 1. Створіть клас для опису товару. У якості атрибутів товару можете використовувати значення ціни товару,
+# todo 3.1. Модифікуйте Перше домашнє завдання так,
+#  щоб при спробі встановити від'ємну або нульову вартість товару викликалася виняткова ситуація
+#  (тип виняткової ситуації треба самостійно реалізувати).
+class User_Exception(Exception):
+    def __init__(self, text):
+        super(User_Exception, self).__init__()
+        self.message = text
+
+    def get_exception_message(self):
+            return self.message
+
+
+# todo 1.1. Створіть клас для опису товару. У якості атрибутів товару можете використовувати значення ціни товару,
 #  опису товару, габарити товару. Створіть пару екземплярів вашого класу та протестуйте їхню роботу.
 class Product:
     def __init__(self, name: str, description: str, price: float, size: tuple):
         self.name = name
         self.description = description
-        self.price = price
+        try:
+            if price < 0:
+                raise User_Exception("Negative number value")
+            else:
+                self.price = price
+        except User_Exception as err:
+            print(err.get_exception_message())
+        except TypeError as err:
+            print(f"Incorrect value in price: {price} for product: {name}")
         self.size = size
 
     def __str__(self):
         return f"prod:{self.name}  discr:{self.description}  price:{self.price}  size:{self.size}"
 
 
-# todo 2. Створіть клас "Покупець". У якості атрибутів можна використовувати прізвище,
+
+# todo 1.2. Створіть клас "Покупець". У якості атрибутів можна використовувати прізвище,
 #  ім'я, по батькові, мобільний телефон тощо.
 class Customer:
     def __init__(self, full_name: tuple, phone_number: str, other_information: dict):
@@ -26,7 +47,7 @@ class Customer:
         fio = self.full_name[1] + ' ' + self.full_name[0] + ' ' + self.full_name[2]
         return f"{fio}, phone number:{self.phone_number}"
 
-# todo 3. Створіть клас "Замовлення". Замовлення може містити декілька товарів певної кількості.
+# todo 1.3. Створіть клас "Замовлення". Замовлення може містити декілька товарів певної кількості.
 #  Замовлення має містити дані про користувача, який його здійснив.
 #  Реалізуйте метод обчислення сумарної вартості замовлення.
 #  Визначте метод str() для коректного виведення інформації про це замовлення.
@@ -63,6 +84,12 @@ products.append(prod_1)
 prod_2 = Product(name="solt", description="To eat", price=3.00, size=(2, 2, 2))
 products.append(prod_2)
 prod_3 = Product(name="water", description="To drink", price=1.00, size=(1, 1, 1))
+products.append(prod_3)
+
+prod_4 = Product(name="water", description="To drink", price=-11.00, size=(1, 1, 1))
+products.append(prod_3)
+
+prod_5 = Product(name="water", description="To drink", price='bnn', size=(1, 1, 1))
 products.append(prod_3)
 
 print("All products:\n" + f"\n".join(map(str, products)))

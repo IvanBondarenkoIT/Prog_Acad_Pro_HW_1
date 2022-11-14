@@ -15,5 +15,6 @@ class Product:
         self.size = size
 
 
+
     def __str__(self):
         return f"prod:{self.name}  discr:{self.description}  price:{self.price}  size:{self.size}"
